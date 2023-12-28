@@ -1,0 +1,81 @@
+﻿@page "{searchString?}"
+@model Proiect_Stoica_Ramona.Pages.Cars.IndexModel
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form>
+    <p>
+        <select asp-for="CarModel" asp-items="Model.Model">
+            <option value="">All</option>
+        </select>
+        Nume: <input type="text" asp-for="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].AvailabeDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Car[0].Location)
+            </th>
+          
+            <th>
+              @Html.DisplayNameFor(model => model.Car[0].EngineTypes)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Car) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailabeDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.LocationName)
+                </td>
+                <td>
+                    @foreach (var engineType in item.EngineTypes)
+                    {
+                        <label>
+                             <input type="checkbox" disabled @(engineType.Assigned ? "checked" : "") /> @engineType.Name
+                        </label>
+                        <br />
+                    }
+                </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
